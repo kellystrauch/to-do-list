@@ -1,0 +1,54 @@
+h1 {
+	font-family: 'Roboto Slab', serif;
+	margin-bottom: 15px;
+}
+body{
+	background-color: #3688b0;
+}
+.container{
+	background-color: #eeebe4;
+	margin-top: 15px;
+	padding: 20px 25px;
+	border: 1px solid #343a40;
+	border-radius: 5px;
+	width: 700px;
+}
+.centered-row{
+	text-align: center;
+}
+.fa{
+	font-size: 28px;
+	color: #343a40;
+}
+.col-sm-1{
+	text-align: right;
+	padding-left: 0px;
+}
+.col-sm-11{
+	padding-right: 0px;
+}
+hr{
+	border-top: 1px solid #343a40;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+input{
+	width: 100%;
+}
+#unfinished-task-container{
+	margin-top: 20px;
+}
+button{
+	margin-top: 15px;
+	margin-left: 15px;
+}
+#finished-task-container{
+	text-decoration: line-through;
+}
+.btn-dark:not(:disabled):not(.disabled).active:focus,
+.btn-dark:not(:disabled):not(.disabled):active:focus,
+.show>.btn-dark.dropdown-toggle:focus,
+.btn-dark.focus,
+.btn-dark:focus {
+	box-shadow: 0 0 0 0.2rem rgba(54, 136, 176, 0.5);
+}

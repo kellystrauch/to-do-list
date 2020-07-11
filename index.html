@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<!-- Required meta tags for Bootstrap -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<title>
+		To Do List
+	</title>
+
+	<!-- Import Google Font -->
+	<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" rel="stylesheet">
+
+	<!-- Import FontAwesome CDN -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+	<!-- CSS for this site -->
+	<link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+
+<body>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12 centered-row">
+				<h1>To Do List</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-11">
+				<input placeholder="What's your next task?" id="new-task">
+			</div>
+			<div class="col-sm-1">
+				<i class="fa fa-plus-circle" onclick="addTask()"></i>
+			</div>
+		</div>
+		<div id="unfinished-task-container">
+		</div>
+		<div id="finished-task-container">
+		</div>
+		<div id="button-container">
+		</div>
+	</div>
+
+	<!-- scripts for Bootstrap -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+	<script>
+		var taskCount = 0;
+		var finishedTaskCount = 0;
+		var checkIcon = '<i class="fa fa-check-circle" onclick="finishTask(event)"></i>';
+		var undoIcon = '<i class="fa fa-undo" onclick="reopenTask(event)"></i>';
+
+		function addTask(){
+			//check for user input
+			let newTaskInput = document.getElementById("new-task");
+			if(newTaskInput.value != ''){
+				//create div with task and divider
+				let div = document.createElement("div");
+				div.classList.add("task-and-divider");
+				let inner = '<hr>';
+				inner += '<div class="row">';
+				inner += '<div class="col-sm-11">';
+				inner += newTaskInput.value;
+				inner += '</div>'
+				inner += '<div class="col-sm-1">';
+				inner += checkIcon;
+				inner += '</div>';
+				inner += '</div>';
+				div.innerHTML = inner;
+
+				//add task as the last task in the unfinished task container
+				let unfinishedTaskContainer = document.getElementById("unfinished-task-container");
+				unfinishedTaskContainer.appendChild(div);
+
+				//reset input
+				newTaskInput.value = '';
+
+				//update task count
+				taskCount++;
+
+				//add clear buttons if this is the first task
+				if(taskCount == 1){
+					//create div with buttons
+					let div = document.createElement("div");
+					div.classList.add("row");
+					let inner = '<div class="col-sm-12 centered-row">';
+					inner += '<button type="button" class="btn btn-dark" onclick="clearFinishedTasks()">Clear Finished</button>';
+					inner += '<button type="button" class="btn btn-dark" onclick="clearAllTasks()">Clear All</button>';
+					inner+= '</div>';
+					div.innerHTML = inner;
+
+					//create divider
+					let hr = document.createElement("hr");
+					
+					//add divider, then div with buttons
+					let buttonContainer = document.getElementById("button-container");
+					buttonContainer.appendChild(hr);
+					buttonContainer.appendChild(div);
+				}
+			}
+		}
+
+		function finishTask(event){
+			//remove task from the unfinished task container
+			let rowWithTaskAndDivider = event.target.parentNode.parentNode.parentNode;
+			rowWithTaskAndDivider.remove();
+
+			//add task as the last task in the finished task container
+			let finishedTaskContainer = document.getElementById("finished-task-container");
+			finishedTaskContainer.appendChild(rowWithTaskAndDivider);
+
+			//replace the check icon with the undo icon
+			let colWithIcon = rowWithTaskAndDivider.lastChild.lastChild;
+			colWithIcon.innerHTML = undoIcon;
+
+			//update finished task count
+			finishedTaskCount++;
+		}
+
+		function reopenTask(event){
+			//remove task from the finished task container
+			let rowWithTaskAndDivider = event.target.parentNode.parentNode.parentNode;
+			rowWithTaskAndDivider.remove();
+
+			//add task as the last task in the unfinished task container
+			let unfinishedTaskContainer = document.getElementById("unfinished-task-container");
+			unfinishedTaskContainer.appendChild(rowWithTaskAndDivider);
+
+			//replace the check icon with the undo icon
+			let colWithIcon = rowWithTaskAndDivider.lastChild.lastChild;
+			colWithIcon.innerHTML = checkIcon;
+
+			//update finished task count
+			finishedTaskCount--;
+		}
+
+		function clearFinishedTasks(){
+			//clear finished tasks
+			let finishedTaskContainer = document.getElementById("finished-task-container");
+			finishedTaskContainer.innerHTML = '';
+
+			//update task counts
+			taskCount = taskCount - finishedTaskCount;
+			finishedTaskCount = 0;
+
+			//if there are no more tasks, remove buttons
+			if(taskCount == 0){
+				let buttonContainer = document.getElementById("button-container");
+				buttonContainer.innerHTML = '';
+			}
+		}
+
+		function clearAllTasks(){
+			//clear unfinished tasks
+			let unfinishedTaskContainer = document.getElementById("unfinished-task-container");
+			unfinishedTaskContainer.innerHTML = '';
+
+			//clear finished tasks
+			let finishedTaskContainer = document.getElementById("finished-task-container");
+			finishedTaskContainer.innerHTML = '';
+
+			//remove buttons
+			let buttonContainer = document.getElementById("button-container");
+			buttonContainer.innerHTML = '';
+
+			//reset task counts
+			taskCount = 0;
+			finishedTaskCount = 0;
+		}
+	</script>
+
+</body>
+
+</html>
