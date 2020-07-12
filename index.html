@@ -92,7 +92,7 @@
 					let div = document.createElement("div");
 					div.classList.add("row");
 					let inner = '<div class="col-sm-12 centered-row">';
-					inner += '<button type="button" class="btn btn-dark" onclick="clearFinishedTasks()">Clear Finished</button>';
+					inner += '<button type="button" class="btn btn-dark" id="clear-finished-button" disabled onclick="clearFinishedTasks()">Clear Finished</button>';
 					inner += '<button type="button" class="btn btn-dark" onclick="clearAllTasks()">Clear All</button>';
 					inner+= '</div>';
 					div.innerHTML = inner;
@@ -123,6 +123,9 @@
 
 			//update finished task count
 			finishedTaskCount++;
+
+			//enable Clear Finished button
+			document.getElementById("clear-finished-button").disabled = false;
 		}
 
 		function reopenTask(event){
@@ -140,6 +143,11 @@
 
 			//update finished task count
 			finishedTaskCount--;
+
+			//if there are no more finished tasks, disable Clear Finished button
+			if(finishedTaskCount == 0){
+				document.getElementById("clear-finished-button").disabled = true;
+			}
 		}
 
 		function clearFinishedTasks(){
@@ -156,6 +164,9 @@
 				let buttonContainer = document.getElementById("button-container");
 				buttonContainer.innerHTML = '';
 			}
+
+			//disable Clear Finished button
+			document.getElementById("clear-finished-button").disabled = true;
 		}
 
 		function clearAllTasks(){
