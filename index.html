@@ -76,9 +76,9 @@
 				inner += '</div>';
 				div.innerHTML = inner;
 
-				//add task as the last task in the unfinished task container
+				//add task as the first task in the unfinished task container
 				let unfinishedTaskContainer = document.getElementById("unfinished-task-container");
-				unfinishedTaskContainer.appendChild(div);
+				unfinishedTaskContainer.insertBefore(div, unfinishedTaskContainer.firstChild);
 
 				//reset input
 				newTaskInput.value = '';
@@ -113,9 +113,9 @@
 			let rowWithTaskAndDivider = event.target.parentNode.parentNode.parentNode;
 			rowWithTaskAndDivider.remove();
 
-			//add task as the last task in the finished task container
+			//add task as the first task in the finished task container
 			let finishedTaskContainer = document.getElementById("finished-task-container");
-			finishedTaskContainer.appendChild(rowWithTaskAndDivider);
+			finishedTaskContainer.insertBefore(rowWithTaskAndDivider, finishedTaskContainer.firstChild);
 
 			//replace the check icon with the undo icon
 			let colWithIcon = rowWithTaskAndDivider.lastChild.lastChild;
@@ -130,9 +130,9 @@
 			let rowWithTaskAndDivider = event.target.parentNode.parentNode.parentNode;
 			rowWithTaskAndDivider.remove();
 
-			//add task as the last task in the unfinished task container
+			//add task as the first task in the unfinished task container
 			let unfinishedTaskContainer = document.getElementById("unfinished-task-container");
-			unfinishedTaskContainer.appendChild(rowWithTaskAndDivider);
+			unfinishedTaskContainer.insertBefore(rowWithTaskAndDivider, unfinishedTaskContainer.firstChild);
 
 			//replace the check icon with the undo icon
 			let colWithIcon = rowWithTaskAndDivider.lastChild.lastChild;
